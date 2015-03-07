@@ -13,6 +13,7 @@
 			import com.bbqcode.lanetscsgoveto.controls.itemrenderers.Map;
 			import com.bbqcode.lanetscsgoveto.models.MapModel;
 			import com.bbqcode.lanetscsgoveto.utils.LogUtil;
+			import com.freshplanet.ane.AirAlert.AirAlert;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
@@ -89,6 +90,12 @@
 					
 					currentStep++;
 					computeCurrentData();
+					
+					if (mapModel.isChoosen) {
+						if (AirAlert.isSupported) {
+							AirAlert.getInstance().showAlert(StringUtil.substitute("{0} choose side", currentTeam), "", "Counter Terrorist", btnCounterTerrorist_clickHandler, "Terrorist", btnTerrorist_clickHandler);
+						}
+					}
 				}
 			}
 			
@@ -100,6 +107,16 @@
 					LogUtil.LogToFile(log);	
 				}
 				
+			}
+			
+			private function btnTerrorist_clickHandler():void
+			{
+				logData.dataProvider.addItem(StringUtil.substitute("{0} choose side -> {1}", currentTeam, "Terrorist"));
+			}
+			
+			private function btnCounterTerrorist_clickHandler():void
+			{
+				logData.dataProvider.addItem(StringUtil.substitute("{0} choose side -> {1}", currentTeam, "Counter Terrorist"));				
 			}
 			
 		]]>
@@ -121,7 +138,7 @@
 			
 		</s:List> 
 		
-		<s:List id="logData" height="220" width="100%" dataProvider="{new ArrayCollection()}"
+		<s:List id="logData" height="270" width="100%" dataProvider="{new ArrayCollection()}"
 				rendererAdd="logData_rendererAddHandler(event)"
 				itemRenderer="com.bbqcode.lanetscsgoveto.controls.itemrenderers.Log">
 			

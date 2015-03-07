@@ -304,4 +304,7 @@
 		]]></InfoAdditions>
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
+<extensions>
+        <extensionID>com.freshplanet.AirAlert</extensionID>
+    </extensions>
 </application>
