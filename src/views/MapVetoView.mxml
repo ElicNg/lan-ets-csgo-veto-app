@@ -9,12 +9,16 @@
 	<fx:Script>
 		<![CDATA[
 			import com.bbqcode.lanetscsgoveto.MapClickedEvent;
+			import com.bbqcode.lanetscsgoveto.controls.itemrenderers.Log;
 			import com.bbqcode.lanetscsgoveto.controls.itemrenderers.Map;
 			import com.bbqcode.lanetscsgoveto.models.MapModel;
+			import com.bbqcode.lanetscsgoveto.utils.LogUtil;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.utils.StringUtil;
+			
+			import spark.events.RendererExistenceEvent;
 			
 			private var currentStep:int;
 			
@@ -24,8 +28,19 @@
 			private var teamStep:Array = ["teamA", "teamB", "teamA", "teamB", "teamA", "teamB"];
 			private var actionStep:Array = ["veto", "veto", "veto", "veto", "choose", "choose"];
 			
+			[Bindable]
 			public var teamA:String = "team A";
+			
+			[Bindable]
 			public var teamB:String = "team B";
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				teamA = data.teamA;
+				teamB = data.teamB;
+			}
+			
 			private var currentAction:String;
 			
 			protected function initializeHandler(event:FlexEvent):void
@@ -45,26 +60,44 @@
 			}
 			
 			private function computeCurrentData():void {
-				currentTeam = teamStep[currentStep];
+				
+				var property:String = teamStep[currentStep] as String;
+				if (this.hasOwnProperty(property)) {
+					currentTeam = this[teamStep[currentStep]] as String;
+				}
+				
 				currentAction = actionStep[currentStep];
-				setCurrentState(currentAction);
+				if (currentAction) {
+					setCurrentState(currentAction);
+				}
 			}
 			
 			protected function clickHandler(event:MapClickedEvent):void
 			{
 				var mapModel:MapModel = event.mapModel;
 				if (currentAction && mapModel && !mapModel.isVetoed && !mapModel.isChoosen) {
-					logData.dataProvider.addItem(StringUtil.substitute("{2}: {0} vetoed {1}", currentTeam, mapModel.mapName, currentStep + 1));
+					logData.dataProvider.addItem(StringUtil.substitute("{2}: {0} {3} -> {1}", currentTeam, mapModel.mapName, currentStep + 1, currentAction));
 					
 					if (currentAction == "veto") {
 						mapModel.isVetoed = true;
 					} else if (currentAction == "choose") {
 						mapModel.isChoosen = true;
 					}
-					mapModel.choosenBy = currentTeam;
+					mapModel.choosenBy = StringUtil.substitute("({0}) {1}", currentStep+1, currentTeam);
+					
 					currentStep++;
 					computeCurrentData();
 				}
+			}
+			
+			protected function logData_rendererAddHandler(event:RendererExistenceEvent):void
+			{
+				var logControl:Log = event.renderer as Log;
+				if (logControl) {
+					var log:String = logControl.getLog();
+					LogUtil.LogToFile(log);	
+				}
+				
 			}
 			
 		]]>
@@ -86,7 +119,8 @@
 			
 		</s:List> 
 		
-		<s:List id="logData" height="220" width="100%" dataProvider="{new ArrayCollection()}" 
+		<s:List id="logData" height="220" width="100%" dataProvider="{new ArrayCollection()}"
+				rendererAdd="logData_rendererAddHandler(event)"
 				itemRenderer="com.bbqcode.lanetscsgoveto.controls.itemrenderers.Log">
 			
 		</s:List>	

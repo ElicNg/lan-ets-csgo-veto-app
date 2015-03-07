@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="LAN ETS 2015 - CS:GO"
 		>
 	<fx:Script>
 		<![CDATA[
@@ -8,11 +9,33 @@
 			
 			protected function btnGo_clickHandler(event:MouseEvent):void
 			{
-				navigator.pushView(MapVetoView);					
+				var teamA:String = txtTeamA.text;
+				var teamB:String = txtTeamB.text;
+				
+				if (teamA && teamB) {
+					var viewData:Object = {};
+					viewData.teamA = teamA;
+					viewData.teamB = teamB;
+					navigator.pushView(MapVetoView, viewData);					
+					
+				}
 			}
 			
 		]]>
 	</fx:Script>
-	
-	<s:Button label="GO" click="btnGo_clickHandler(event)" />
+
+	<s:VGroup width="80%" gap="40" top="60" horizontalCenter="0">
+		<s:VGroup width="100%">
+			<s:Label text="Team A"/>
+			<s:TextInput id="txtTeamA" width="100%"/>
+		</s:VGroup>
+		
+		<s:VGroup width="100%">
+			<s:Label text="Team B"/>
+			<s:TextInput id="txtTeamB" width="100%"/>
+		</s:VGroup>
+		
+		<s:Button label="GO" click="btnGo_clickHandler(event)" width="100%" bottom="0" />
+	</s:VGroup>
+
 </s:View>
