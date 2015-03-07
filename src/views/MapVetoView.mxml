@@ -25,8 +25,8 @@
 			[Bindable]
 			private var currentTeam:String = "teamA";
 			
-			private var teamStep:Array = ["teamA", "teamB", "teamA", "teamB", "teamA", "teamB"];
-			private var actionStep:Array = ["veto", "veto", "veto", "veto", "choose", "choose"];
+			private var teamSteps:Array;
+			private var actionSteps:Array;
 			
 			[Bindable]
 			public var teamA:String = "team A";
@@ -39,6 +39,8 @@
 				super.data = value;
 				teamA = data.teamA;
 				teamB = data.teamB;
+				this.teamSteps = data.teamSteps;
+				this.actionSteps = data.actionSteps;
 			}
 			
 			private var currentAction:String;
@@ -61,12 +63,12 @@
 			
 			private function computeCurrentData():void {
 				
-				var property:String = teamStep[currentStep] as String;
+				var property:String = teamSteps[currentStep] as String;
 				if (this.hasOwnProperty(property)) {
-					currentTeam = this[teamStep[currentStep]] as String;
+					currentTeam = this[teamSteps[currentStep]] as String;
 				}
 				
-				currentAction = actionStep[currentStep];
+				currentAction = actionSteps[currentStep];
 				if (currentAction) {
 					setCurrentState(currentAction);
 				}

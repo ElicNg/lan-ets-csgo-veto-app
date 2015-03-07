@@ -7,7 +7,7 @@
 		<![CDATA[
 			import views.MapVetoView;
 			
-			protected function btnGo_clickHandler(event:MouseEvent):void
+			protected function btnGoBO3_clickHandler(event:MouseEvent):void
 			{
 				var teamA:String = txtTeamA.text;
 				var teamB:String = txtTeamB.text;
@@ -16,6 +16,24 @@
 					var viewData:Object = {};
 					viewData.teamA = teamA;
 					viewData.teamB = teamB;
+					viewData.teamSteps = ["teamA", "teamB", "teamA", "teamB", "teamA", "teamB"];;
+					viewData.actionSteps = ["veto", "veto", "veto", "veto", "choose", "choose"];
+					navigator.pushView(MapVetoView, viewData);					
+					
+				}
+			}
+			
+			protected function btnGoBO1_clickHandler(event:MouseEvent):void
+			{
+				var teamA:String = txtTeamA.text;
+				var teamB:String = txtTeamB.text;
+				
+				if (teamA && teamB) {
+					var viewData:Object = {};
+					viewData.teamA = teamA;
+					viewData.teamB = teamB;
+					viewData.teamSteps = ["teamA", "teamB", "teamB", "teamA", "teamB", "teamA"];
+					viewData.actionSteps = ["veto", "veto", "veto", "veto", "veto", "choose"];
 					navigator.pushView(MapVetoView, viewData);					
 					
 				}
@@ -35,7 +53,9 @@
 			<s:TextInput id="txtTeamB" width="100%"/>
 		</s:VGroup>
 		
-		<s:Button label="GO" click="btnGo_clickHandler(event)" width="100%" bottom="0" />
+		<s:Button label="GO BO3" click="btnGoBO3_clickHandler(event)" width="100%" bottom="0" />
+		<s:Button label="GO BO1" click="btnGoBO1_clickHandler(event)" width="100%" bottom="0" />
+		
 	</s:VGroup>
 
 </s:View>
