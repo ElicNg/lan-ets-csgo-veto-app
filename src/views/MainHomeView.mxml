@@ -3,6 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		title="LAN ETS 2015 - CS:GO"
 		>
+	
 	<fx:Script>
 		<![CDATA[
 			import views.MapVetoView;
