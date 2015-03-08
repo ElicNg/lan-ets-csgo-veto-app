@@ -11,16 +11,16 @@
 			protected function btnGoBO3_clickHandler(event:MouseEvent):void
 			{
 				var viewData:Object = {};
-				viewData.teamSteps = ["teamA", "teamB", "teamA", "teamB", "teamA", "teamB"];;
-				viewData.actionSteps = ["veto", "veto", "veto", "veto", "choose", "choose"];
+				viewData.teamSteps = ["teamA", "teamB", "teamA", "teamB", "teamA", "teamB","teamB","teamA"];;
+				viewData.actionSteps = ["veto", "veto", "veto", "veto", "choose","chooseside","choose", "chooseside"];
 				start(viewData);
 			}
 			
 			protected function btnGoBO1_clickHandler(event:MouseEvent):void
 			{
 				var viewData:Object = {};
-				viewData.teamSteps = ["teamA", "teamB", "teamB", "teamA", "teamB", "teamA"];
-				viewData.actionSteps = ["veto", "veto", "veto", "veto", "veto", "choose"];
+				viewData.teamSteps = ["teamA", "teamB", "teamB", "teamA", "teamB", "teamA","teamB"];
+				viewData.actionSteps = ["veto", "veto", "veto", "veto", "veto", "choose", "chooseside"];
 				start(viewData);
 			}
 			

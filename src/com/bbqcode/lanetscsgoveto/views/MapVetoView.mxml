@@ -91,9 +91,9 @@
 					currentStep++;
 					computeCurrentData();
 					
-					if (mapModel.isChoosen) {
+					if (currentAction == "chooseside") {
 						if (AirAlert.isSupported) {
-							AirAlert.getInstance().showAlert(StringUtil.substitute("{0} choose side", currentTeam), "", "Counter Terrorist", btnCounterTerrorist_clickHandler, "Terrorist", btnTerrorist_clickHandler);
+							AirAlert.getInstance().showAlert("Choose Side", StringUtil.substitute("{0} choose side", currentTeam), "Counter Terrorist", btnCounterTerrorist_clickHandler, "Terrorist", btnTerrorist_clickHandler);
 						}
 					}
 				}
@@ -111,12 +111,18 @@
 			
 			private function btnTerrorist_clickHandler():void
 			{
-				logData.dataProvider.addItem(StringUtil.substitute("{0} choose side -> {1}", currentTeam, "Terrorist"));
+				choseSide("Terrorist");
 			}
 			
 			private function btnCounterTerrorist_clickHandler():void
 			{
-				logData.dataProvider.addItem(StringUtil.substitute("{0} choose side -> {1}", currentTeam, "Counter Terrorist"));				
+				choseSide("Counter Terrorist");
+			}
+			
+			private function choseSide(side:String):void {
+				logData.dataProvider.addItem(StringUtil.substitute("{2}: {0} choose side -> {1}", currentTeam, side, currentStep + 1));
+				currentStep++;
+				computeCurrentData();
 			}
 			
 		]]>
@@ -125,6 +131,7 @@
 	<s:states>
 		<s:State name="veto"/>
 		<s:State name="choose"/>
+		<s:State name="chooseside" basedOn="choose"/>
 	</s:states>
 	
 	<s:VGroup width="100%" height="100%">
